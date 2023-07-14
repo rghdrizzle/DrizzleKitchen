@@ -21,10 +21,10 @@ public class LookAtCamera : MonoBehaviour
                 transform.LookAt(transform.position + dirCamera);
                 break;
             case Mode.CameraForwad:
-                transform.forwawrd = Camera.main.transform.forward;
+                transform.forward = Camera.main.transform.forward;
                 break;
             case Mode.CameraForwadInvereted:
-                transform.forwawrd = -Camera.main.transform.forward;
+                transform.forward = -Camera.main.transform.forward;
                 break;
         }
         

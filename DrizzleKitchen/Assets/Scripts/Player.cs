@@ -32,13 +32,14 @@ public class Player : MonoBehaviour , IkitchenObjectParent
           Gameinputs.OnInteractAlternateAction += Gameinputs_OnInteractAlternateAction;
 }
      private void Gameinputs_OnInteractAlternateAction(object sender, System.EventArgs e){
-          if( selectedCounter!=null ){
+          if(selectedCounter!=null ){
           selectedCounter.InteractAlternate(this);
       }
      }
     private void Gameinputs_OnInteractAction(object sender, System.EventArgs e){
       if( selectedCounter!=null ){
           selectedCounter.Interact(this);
+          Debug.Log("Interact");
       }
     }
     
@@ -101,13 +102,18 @@ public class Player : MonoBehaviour , IkitchenObjectParent
               SetSelectedCounter(baseCounter);
           }
           else{
-               SetSelectedCounter(null);
+               SetSelectedCounter(selectedCounter);
           }
         }
+        else{
+          SetSelectedCounter(null);
+     }
+        
      }
      else{
           SetSelectedCounter(null);
      }
+     
     }
     private void SetSelectedCounter(BaseCounter selectedCounter){
      this.selectedCounter= selectedCounter;

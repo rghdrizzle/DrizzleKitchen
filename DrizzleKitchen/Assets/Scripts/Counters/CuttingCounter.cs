@@ -10,6 +10,7 @@ public class CuttingCounter : BaseCounter , IHasProgress
     [SerializeField]private CuttingRecipeSO[] cuttingRecipeArray;
     private int cuttingProcess;
     public override void Interact(Player player){
+        //Debug.Log("Interact");
         if(!HasKitchenObject()){
             if(player.HasKitchenObject()){
                 if(HasRecipeWithINput(player.GetKitchenObject().GetKitchenObjectSO())){
@@ -28,7 +29,19 @@ public class CuttingCounter : BaseCounter , IHasProgress
         }
         else{
             if(player.HasKitchenObject()){
+                if(player.GetKitchenObject() .TryGetPlate(out PlateKitchenObject plateKitchenObject)){
+                    if( plateKitchenObject.TryAddIngredient(GetKitchenObject().GetKitchenObjectSO())){
+                        GetKitchenObject().DestroySelf();
+               }
                 
+             }else{
+                if(GetKitchenObject().TryGetPlate(out plateKitchenObject)){
+                    //counter is holding plate
+                    if(plateKitchenObject.TryAddIngredient(player.GetKitchenObject().GetKitchenObjectSO())){
+                        player.GetKitchenObject().DestroySelf();
+                    }
+                }
+             }
 
             }else{
                 //player not carrying anything
@@ -38,6 +51,7 @@ public class CuttingCounter : BaseCounter , IHasProgress
         }
     }
     public override void InteractAlternate(Player player){
+        //Debug.Log("Cutting");
         if(HasKitchenObject() && HasRecipeWithINput(GetKitchenObject().GetKitchenObjectSO())){
             //if there is an object then cut it
             cuttingProcess++;

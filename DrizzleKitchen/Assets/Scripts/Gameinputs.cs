@@ -11,7 +11,7 @@ public class Gameinputs : MonoBehaviour
     private void Awake(){
         playerInputs = new PlayerInputs();
         playerInputs.player.Enable();
-
+        
         playerInputs.player.Interact.performed +=  Interact_performed;
         playerInputs.player.InteractAlternate.performed += InteractAlternate_performed;
     }
@@ -23,12 +23,14 @@ public class Gameinputs : MonoBehaviour
     }
     private void Interact_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj){
         if(OnInteractAction!=null){
-            OnInteractAction(this,EventArgs.Empty);
+            OnInteractAction?.Invoke(this,EventArgs.Empty);
+            //Debug.Log("Event OnIntereactAction called");
         }
         
 
     }
     private void InteractAlternate_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj){
         OnInteractAlternateAction?.Invoke(this,EventArgs.Empty);
+         //Debug.Log("Event OnIntereactActionAlternate called");
     }
 }

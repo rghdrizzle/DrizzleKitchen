@@ -25,6 +25,7 @@ public class PlateCounter :BaseCounter
         }
     }
     public override void Interact(Player player){
+        Debug.Log("Interact");
         if(!player.HasKitchenObject()){
             //player is empty handed
             if(plateSpawnedAmount>0){

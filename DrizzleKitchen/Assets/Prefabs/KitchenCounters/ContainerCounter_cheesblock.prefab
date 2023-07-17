@@ -11,7 +11,7 @@ PrefabInstance:
     - target: {fileID: 4055586411184982915, guid: c7a6f82bb17ee424dbff0ab28dfeebc9,
         type: 3}
       propertyPath: m_Name
-      value: ContainerCounter
+      value: ContainerCounter_cheesblock
       objectReference: {fileID: 0}
     - target: {fileID: 7616241170592319844, guid: c7a6f82bb17ee424dbff0ab28dfeebc9,
         type: 3}

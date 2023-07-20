@@ -9,6 +9,7 @@ public class ContainerCounter : BaseCounter
 
     [SerializeField]private KitchenObjectSO KitchenObjectSO;
     public override void Interact(Player player){
+        //Debug.Log("Interact");
         if(!player.HasKitchenObject()){
             KitchenObject.SpawnKitchenObject(KitchenObjectSO,player);
 

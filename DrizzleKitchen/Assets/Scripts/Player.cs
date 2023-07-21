@@ -12,6 +12,7 @@ public class Player : MonoBehaviour , IkitchenObjectParent
           public BaseCounter selectedCounter;
     }
 
+    [SerializeField]private Transform ObjectPoint;
     [SerializeField]private float moveSpeed = 7f;
     [SerializeField]private Gameinputs Gameinputs;
     [SerializeField]private LayerMask countersLayerMask;
@@ -20,6 +21,22 @@ public class Player : MonoBehaviour , IkitchenObjectParent
     private Vector3 LastInteractDir;
     private BaseCounter selectedCounter;
     private KitchenObject kitchenObject;
+
+
+    //fps testing
+    public GameObject playerCamera;
+    [SerializeField] private Transform playerTransform;
+    public float walkSpeed = 6f;
+    public float runSpeed = 12f;
+    public float jumpPower = 7f;
+    public float gravity = 10f;
+    public float lookSpeed = 2f;
+    public float mouseSensitivity = 100;
+    public float lookXLimit = 90f;
+    Vector3 moveDirection = Vector3.zero;
+    float rotationX = 0;
+    public bool canMove = true;
+    public CharacterController characterController;
 
      private void Awake() {
           if(Instance!=null){
@@ -30,6 +47,8 @@ public class Player : MonoBehaviour , IkitchenObjectParent
     private void Start() {
           Gameinputs.OnInteractAction += Gameinputs_OnInteractAction;
           Gameinputs.OnInteractAlternateAction += Gameinputs_OnInteractAlternateAction;
+          Cursor.lockState= CursorLockMode.Locked;
+          Cursor.visible = false;   
 }
      private void Gameinputs_OnInteractAlternateAction(object sender, System.EventArgs e){
           if(selectedCounter!=null ){
@@ -46,15 +65,30 @@ public class Player : MonoBehaviour , IkitchenObjectParent
     private void Update(){
          HandleInteractions();
          HandleMovement();
+         HandleLookMovement();
     }
 
     public bool IsWalking(){
          return isWalking;
     }
+     private void HandleLookMovement(){
+        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
+        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
 
+        // Rotate the player's body left/right based on mouse X movement
+        playerTransform.Rotate(Vector3.up * mouseX);
+
+        // Rotate the camera up/down based on mouse Y movement
+        rotationX  -= mouseY;
+        rotationX  = Mathf.Clamp(rotationX , -90f, 90f);
+
+     //    // Apply rotation to the camera
+        playerCamera.transform.localRotation = Quaternion.Euler(rotationX , 0f, 0f);
+     }
     private void HandleMovement(){
      Vector2 inputVector= Gameinputs.GetMovementVectorNormalized();
-         Vector3 moveDir = new Vector3(inputVector.x, 0f,inputVector.y);
+     //Vector3 moveDir = new Vector3(inputVector.x, 0f,inputVector.y);
+     Vector3 moveDir = transform.right*inputVector.x + transform.forward*inputVector.y ;
          float playerRadius =.7f;
          float playerheight =2f;
          float moveDistance = moveSpeed* Time.deltaTime;
@@ -78,11 +112,12 @@ public class Player : MonoBehaviour , IkitchenObjectParent
          isWalking = moveDir != Vector3.zero;
          if(canMove){
             
-            transform.position += moveDir * moveDistance;
+         transform.position += moveDir * moveDistance;
+     //characterController.Move(moveDir* walkSpeed*Time.deltaTime);
+           
          }
-
-         float rotateSpeed = 10f;
-         transform.forward= Vector3.Slerp(transform.forward, moveDir,Time.deltaTime* rotateSpeed);
+     //     float rotateSpeed = 10f;
+     //     transform.forward= Vector3.Slerp(transform.forward, moveDir,Time.deltaTime* rotateSpeed);
 
         
          
@@ -95,7 +130,7 @@ public class Player : MonoBehaviour , IkitchenObjectParent
           LastInteractDir=moveDir;
      }
      float Interactdistance = 2f;
-     if(Physics.Raycast(transform.position, LastInteractDir,out RaycastHit raycasthit ,Interactdistance,countersLayerMask)){
+     if(Physics.Raycast(playerCamera.transform.position,playerCamera.transform.forward,out RaycastHit raycasthit ,Interactdistance,countersLayerMask)){
         if(raycasthit.transform.TryGetComponent(out BaseCounter baseCounter)){
           // Has counter
           if( baseCounter!=selectedCounter){

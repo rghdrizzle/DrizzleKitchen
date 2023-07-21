@@ -158,6 +158,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2566542039941209635}
     m_Modifications:
+    - target: {fileID: 3984833892277163771, guid: 0004cb1e11ad014419b943c7da960724,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: af479769681f07742bc025b61e3977d7, type: 2}
     - target: {fileID: 4589716710238282922, guid: 0004cb1e11ad014419b943c7da960724,
         type: 3}
       propertyPath: m_Name
@@ -359,5 +364,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e38d42b90fa63ce4a9c18889195b09e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  KitchenObjectSO: {fileID: 11400000, guid: 28b9989023ec16248a7a961d280657db, type: 2}
   counterToppoint: {fileID: 4864430939014735736}
+  KitchenObjectSO: {fileID: 11400000, guid: 28b9989023ec16248a7a961d280657db, type: 2}

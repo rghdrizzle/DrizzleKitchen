@@ -5,6 +5,7 @@ using UnityEngine;
 public class DeliveryCounter : BaseCounter
 {
     public static DeliveryCounter Instance { get; private set; }
+    public bool delivered;
     private void Awake(){
         Instance=this;
     }
@@ -12,7 +13,8 @@ public class DeliveryCounter : BaseCounter
         if(player.HasKitchenObject()){
             if(player.GetKitchenObject().TryGetPlate(out PlateKitchenObject plateKitchenObject)){
                 
-                DeliveryManager.Instance.DeliverRecipe(plateKitchenObject);
+                //DeliveryManager.Instance.DeliverRecipe(plateKitchenObject);
+                delivered= CustomerManager.Instance.DeliverToCustomer(plateKitchenObject);
                 player.GetKitchenObject().DestroySelf();
             
             }

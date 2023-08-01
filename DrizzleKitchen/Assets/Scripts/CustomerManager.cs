@@ -21,12 +21,12 @@ public class CustomerManager : MonoBehaviour
     private int y;
     
     public enum State{
+        Idle,
         Move,
         Order,
         Wait,
         Sit,
-        Leave,
-        Vanish,
+        Leave
     }
     [SerializeField]private RecipeListSO recipelistSO;
     public State state;
@@ -50,6 +50,8 @@ public class CustomerManager : MonoBehaviour
     [SerializeField]private DeliveryCounter deliveryCounter;
     public void Update(){
         switch(state){
+            case State.Idle:
+                break;
             case State.Move:
                 CurrentPosition = Npc.transform.position;
                 Vector3 newPos = Vector3.MoveTowards(CurrentPosition,pathPoints[i].transform.position,speed*Time.deltaTime);
@@ -71,6 +73,7 @@ public class CustomerManager : MonoBehaviour
             case State.Wait:
                 WaitingTime+= Time.deltaTime;
                 if(WaitingTime>=WaitingTimeMax){
+                    WaitingTime=0;
                    Debug.Log("OH I DONT NEED UR FOOD");
                     state = State.Leave;
                 }
@@ -90,6 +93,7 @@ public class CustomerManager : MonoBehaviour
                 }
                 EatingTime+= Time.deltaTime;
                 if(EatingTime>=EatingTimeMax){
+                    EatingTime=0;
                    Debug.Log("Bubye , the food was awesome");
                     state = State.Leave;
                 }
@@ -99,13 +103,30 @@ public class CustomerManager : MonoBehaviour
                 CurrentPosition = Npc.transform.position;
                 Vector3 newPosLeave = Vector3.MoveTowards(CurrentPosition,LeavingPath[x].transform.position,speed*Time.deltaTime);
                 transform.position = newPosLeave;
-                if( CurrentPosition == LeavingPath[x].transform.position && x!= NoOfPointsExiting-1){
+                if( CurrentPosition == LeavingPath[x].transform.position && x!= NoOfPointsExiting){
                         x++;
+                }
+                if(x==NoOfPointsExiting){
+                    state=State.Move;
+                    if(gameObject.name == "Npc"){
+                        gameObject.SetActive(false);
+                        i=1;
+                        y=1;
+                        x=1;
+                        state=State.Idle;
+                    }
+                    else{
+                        //Destroy(gameObject);
+                        gameObject.SetActive(false);
+                        i=1;
+                        y=1;
+                        x=1;
+                    }
+                    
+                    
                 }
                 
                 
-                break;
-            case State.Vanish:
                 break;
         }
         

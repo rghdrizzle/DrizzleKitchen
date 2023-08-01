@@ -5,39 +5,35 @@ using UnityEngine;
 public class NpcPool : MonoBehaviour
 {
    public static NpcPool Instance;
+
    [SerializeField]private GameObject Npc;
-   [SerializeField]private int poolSize;
-   [SerializeField]private GameObject spawnPoint;
+   private int NpcPoolSize=3;
 
-   private Queue<GameObject> npcPool= new Queue<GameObject>();
+   private List<GameObject> NpcPoolList = new List<GameObject>();
 
-    private void Awake(){
-        if(Instance==null){
-            Instance = this;
-        }
-        else{
-            Destroy(gameObject);
-        }
-        for(int i=0; i<poolSize;i++){
-            GameObject npc = Instantiate(Npc,spawnPoint.transform.position,Quaternion.identity);
-            npc.SetActive(false);
-            npcPool.Enqueue(npc);
-        }
+   private void Awake(){
+    if(Instance == null){
+        Instance = this;
     }
-    public GameObject GetNpc()
-    {
-        if (npcPool.Count == 0)
-            return null;
-
-        GameObject npc = npcPool.Dequeue();
-        npc.SetActive(true);
-        return npc;
-    }
-
-    public void ReturnNpcToPool(GameObject npc)
-    {
+   }
+   private void Start(){
+    for(int i=0;i<NpcPoolSize;i++){
+        GameObject npc =Instantiate(Npc);
+        //CustomerManager.Instance.state = CustomerManager.State.Idle;
         npc.SetActive(false);
-        npcPool.Enqueue(npc);
+        NpcPoolList.Add(npc);
+
     }
+   }
+   public GameObject GetNpc(){
+        for(int i=0;i<NpcPoolList.Count;i++){
+            if(!NpcPoolList[i].activeInHierarchy){
+                return NpcPoolList[i];
+            }
+           
+        }
+         return null;
+   }
+
 
 }

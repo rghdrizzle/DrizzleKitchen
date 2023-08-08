@@ -7,7 +7,7 @@ public class NpcPool : MonoBehaviour
    public static NpcPool Instance;
 
    [SerializeField]private GameObject Npc;
-   private int NpcPoolSize=3;
+   private int NpcPoolSize=10;
 
    private List<GameObject> NpcPoolList = new List<GameObject>();
 

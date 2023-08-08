@@ -9,7 +9,7 @@ public class GenerateCustomers : MonoBehaviour
     [SerializeField]private GameObject SpawnPoint;
     private int NoOfCustomer=1;
     private float Timer;
-    public GameObject npc;
+    //public GameObject npc;
 
     private void Start(){
         Timer= 0f;
@@ -18,8 +18,8 @@ public class GenerateCustomers : MonoBehaviour
     
     private void Update(){
         Timer+= Time.deltaTime;
-        if(Timer>=5f){
-            if(NoOfCustomer<=4){
+        if(Timer>=6f){
+            if(NoOfCustomer<=16){
 
             
             // if(CustomerManager.Instance.state ==CustomerManager.State.Leave ||  CustomerManager.Instance.state ==CustomerManager.State.Sit){
@@ -49,7 +49,7 @@ public class GenerateCustomers : MonoBehaviour
     private IEnumerator SpawnNpcAfterDelay()
     {
         yield return new WaitForSeconds(0.5f); 
-        npc = NpcPool.Instance.GetNpc();
+        GameObject npc = NpcPool.Instance.GetNpc();
                 //npc.SetActive(true);
                 //CustomerManager.Instance.state = CustomerManager.State.Move;
                 Debug.Log(npc);

@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class IdleState : State
 {
+    public MoveState move;
     public override State RunCurrentState(){
-        return this;
+        return move;
+        //return this;
     }
 }

@@ -6,6 +6,8 @@ public class StateManager : MonoBehaviour
 {
 
     [SerializeField] private State CurrentState;
+    [SerializeField] private MoveState move;
+
     private void Update()
     {
         RunStateMachine();

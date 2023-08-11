@@ -16,6 +16,7 @@ public class Player : MonoBehaviour , IkitchenObjectParent
     [SerializeField]private float moveSpeed = 7f;
     [SerializeField]private Gameinputs Gameinputs;
     [SerializeField]private LayerMask countersLayerMask;
+    [SerializeField]private LayerMask NpcLayerMask;
     [SerializeField]private Transform KitchenObjectHoldPoint;
     private bool isWalking;
     private Vector3 LastInteractDir;
@@ -47,9 +48,21 @@ public class Player : MonoBehaviour , IkitchenObjectParent
     private void Start() {
           Gameinputs.OnInteractAction += Gameinputs_OnInteractAction;
           Gameinputs.OnInteractAlternateAction += Gameinputs_OnInteractAlternateAction;
+          Gameinputs.OnInteractAction += Npc_OnInteractAction;
           Cursor.lockState= CursorLockMode.Locked;
           Cursor.visible = false;   
 }
+     private void Npc_OnInteractAction(object sender, System.EventArgs e){
+        Collider[] colliderArray = Physics.OverlapSphere(transform.position,2f);
+        foreach(Collider collider in colliderArray){
+          if(collider.TryGetComponent(out StateManager stateManager)){
+               stateManager.Interact();
+          }
+          
+        }
+        
+          
+     }
      private void Gameinputs_OnInteractAlternateAction(object sender, System.EventArgs e){
           if(selectedCounter!=null ){
           selectedCounter.InteractAlternate(this);
@@ -89,8 +102,8 @@ public class Player : MonoBehaviour , IkitchenObjectParent
      Vector2 inputVector= Gameinputs.GetMovementVectorNormalized();
      //Vector3 moveDir = new Vector3(inputVector.x, 0f,inputVector.y);
      Vector3 moveDir = transform.right*inputVector.x + transform.forward*inputVector.y ;
-         float playerRadius =.7f;
-         float playerheight =2f;
+         float playerRadius =.5f;
+         float playerheight =1.3f;
          float moveDistance = moveSpeed* Time.deltaTime;
          bool canMove = !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerheight,playerRadius,moveDir,moveDistance);
       

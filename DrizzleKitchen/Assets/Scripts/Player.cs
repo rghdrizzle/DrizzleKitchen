@@ -39,6 +39,9 @@ public class Player : MonoBehaviour , IkitchenObjectParent
     public bool canMove = true;
     public CharacterController characterController;
 
+    [SerializeField] public OrderUI orderUI;
+    
+
      private void Awake() {
           if(Instance!=null){
                Debug.LogError("More than one player instance");
@@ -55,8 +58,8 @@ public class Player : MonoBehaviour , IkitchenObjectParent
      private void Npc_OnInteractAction(object sender, System.EventArgs e){
         Collider[] colliderArray = Physics.OverlapSphere(transform.position,2f);
         foreach(Collider collider in colliderArray){
-          if(collider.TryGetComponent(out StateManager stateManager)){
-               stateManager.Interact();
+          if(collider.TryGetComponent(out NpcInteractable npcInteract)){
+               npcInteract.Interact(this);
           }
           
         }
@@ -71,7 +74,7 @@ public class Player : MonoBehaviour , IkitchenObjectParent
     private void Gameinputs_OnInteractAction(object sender, System.EventArgs e){
       if( selectedCounter!=null ){
           selectedCounter.Interact(this);
-          Debug.Log("Interact");
+          //Debug.Log("Interact");
       }
     }
     
@@ -137,6 +140,29 @@ public class Player : MonoBehaviour , IkitchenObjectParent
 
     }
     private void HandleInteractions(){
+     Collider[] colliderArray = Physics.OverlapSphere(transform.position,2f);
+        foreach(Collider collider in colliderArray){
+          if(collider.TryGetComponent(out NpcInteractable npcInteract)){
+               //orderUI.gameObject.SetActive(true);
+               Transform orderUITransform = npcInteract.transform.Find("OrderUi");
+               GameObject orderUI = orderUITransform.gameObject;
+            
+            if (orderUITransform != null)
+            {   float distance = Vector3.Distance(gameObject.transform.position,npcInteract.transform.position);
+                if(distance<=2f){
+                    orderUI.SetActive(true); 
+                }
+                else{
+                    orderUI.SetActive(false); 
+                }
+            }
+            
+
+
+          }
+          
+          
+        }
      Vector2 inputVector= Gameinputs.GetMovementVectorNormalized();
      Vector3 moveDir = new Vector3(inputVector.x, 0f,inputVector.y);
      if( moveDir!= Vector3.zero){

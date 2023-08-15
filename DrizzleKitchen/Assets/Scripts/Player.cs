@@ -56,7 +56,7 @@ public class Player : MonoBehaviour , IkitchenObjectParent
           Cursor.visible = false;   
 }
      private void Npc_OnInteractAction(object sender, System.EventArgs e){
-        Collider[] colliderArray = Physics.OverlapSphere(transform.position,2f);
+        Collider[] colliderArray = Physics.OverlapSphere(transform.position,1.5f);
         foreach(Collider collider in colliderArray){
           if(collider.TryGetComponent(out NpcInteractable npcInteract)){
                npcInteract.Interact(this);
@@ -143,19 +143,23 @@ public class Player : MonoBehaviour , IkitchenObjectParent
      Collider[] colliderArray = Physics.OverlapSphere(transform.position,2f);
         foreach(Collider collider in colliderArray){
           if(collider.TryGetComponent(out NpcInteractable npcInteract)){
-               //orderUI.gameObject.SetActive(true);
+             if(collider.TryGetComponent(out StateManager stateManager)){
+                     //orderUI.gameObject.SetActive(true);
                Transform orderUITransform = npcInteract.transform.Find("OrderUi");
                GameObject orderUI = orderUITransform.gameObject;
-            
+
             if (orderUITransform != null)
-            {   float distance = Vector3.Distance(gameObject.transform.position,npcInteract.transform.position);
-                if(distance<=2f){
+            {   
+                float distance = Vector3.Distance(gameObject.transform.position,npcInteract.transform.position);
+                if(distance<=2f && (stateManager.CurrentState is WaitState || stateManager.CurrentState is MoveState)){
                     orderUI.SetActive(true); 
                 }
                 else{
                     orderUI.SetActive(false); 
                 }
             }
+             }
+              
             
 
 

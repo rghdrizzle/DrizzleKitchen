@@ -17,6 +17,12 @@ public class NpcInteractable : BaseCounter
                
             
             }
+            else if(player.GetKitchenObject().name == "mug(Clone)" && orderState.Order.recipeName =="Juice"){
+                
+                delivered = true;
+                player.GetKitchenObject().SetkitchenObjectParent(this);
+                Debug.Log("Thats refreshing hmm hmm!!!!");
+            }
         }
     }
     private bool DeliverToCustomer(PlateKitchenObject plateKitchenObject){

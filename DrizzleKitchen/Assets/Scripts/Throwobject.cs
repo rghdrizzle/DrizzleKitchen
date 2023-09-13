@@ -9,17 +9,21 @@ public class Throwobject : MonoBehaviour
     [SerializeField] private LayerMask pickupLayer;
     [SerializeField] private Player player;
 
+    private float time=0;
     public event EventHandler OnThrowing;
 
    private void Update(){
+;
     if(Input.GetKeyDown(KeyCode.T)){
-        OnThrowing?.Invoke(this,EventArgs.Empty);
         if(player.HasKitchenObject()){
+ 
+            OnThrowing?.Invoke(this,EventArgs.Empty);
             player.GetKitchenObject().GetComponent<Rigidbody>().useGravity=true;
             player.GetKitchenObject().transform.parent=null;
 
             player.GetKitchenObject().GetComponent<Rigidbody>().AddForce(playerCamera.transform.forward*350);
             player.SetKitchenObject(null);
+
 
         }  
         else{
@@ -27,4 +31,5 @@ public class Throwobject : MonoBehaviour
         }
         }
    }
+   
 }

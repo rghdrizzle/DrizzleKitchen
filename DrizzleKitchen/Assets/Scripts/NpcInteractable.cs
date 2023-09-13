@@ -18,7 +18,7 @@ public class NpcInteractable : BaseCounter
             
             }
             else if(player.GetKitchenObject().name == "mug(Clone)" && orderState.Order.recipeName =="Juice"){
-                
+                player.GetKitchenObject().GetComponent<Rigidbody>().useGravity=false;
                 delivered = true;
                 player.GetKitchenObject().SetkitchenObjectParent(this);
                 Debug.Log("Thats refreshing hmm hmm!!!!");

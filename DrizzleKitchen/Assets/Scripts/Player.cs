@@ -52,8 +52,8 @@ public class Player : MonoBehaviour , IkitchenObjectParent
           Gameinputs.OnInteractAction += Gameinputs_OnInteractAction;
           Gameinputs.OnInteractAlternateAction += Gameinputs_OnInteractAlternateAction;
           Gameinputs.OnInteractAction += Npc_OnInteractAction;
-          Cursor.lockState= CursorLockMode.Locked;
-          Cursor.visible = false;   
+          //Cursor.lockState= CursorLockMode.Locked;
+          //Cursor.visible = false;   
 }
      private void Npc_OnInteractAction(object sender, System.EventArgs e){
         Collider[] colliderArray = Physics.OverlapSphere(transform.position,1.5f);

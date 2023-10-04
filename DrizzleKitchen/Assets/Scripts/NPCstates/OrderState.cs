@@ -1,17 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class OrderState : State
 {
+    public static OrderState Instance ;
     public WaitState wait;
     [SerializeField]private RecipeListSO recipelistSO;
     [SerializeField]private UnityEngine.AI.NavMeshAgent agent;
     private Vector3 target;
     [SerializeField] private Transform sit; 
     private bool hasGotChair = false;
+    public DeliveryRecipeSO Order;
     public override State RunCurrentState(){
-        agent.ResetPath();
+        if(Time.timeScale>0){
+            agent.ResetPath();
         //agent.SetDestination(target); 
         // Transform des = Chairs.Instance.GetChair();
         // target = des.position;
@@ -23,12 +27,14 @@ public class OrderState : State
             hasGotChair = true; 
         }
         agent.SetDestination(target);
+        }
+        
 
         if(!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
         {
             DeliveryRecipeSO waitingRecipeSO = recipelistSO.recipeSOList[UnityEngine.Random.Range(0,recipelistSO.recipeSOList.Count)];
             Debug.Log("Npc ordered"+ " "+ waitingRecipeSO.recipeName);
-        //Order = waitingRecipeSO;
+            Order = waitingRecipeSO;
             return wait;
         }
         else{

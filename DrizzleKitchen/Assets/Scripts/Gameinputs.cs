@@ -19,6 +19,12 @@ public class Gameinputs : MonoBehaviour
         playerInputs.player.InteractAlternate.performed += InteractAlternate_performed;
         playerInputs.player.Pause.performed += Pause_performed;
     }
+    private void OnDestroy() {
+        playerInputs.player.Interact.performed -=  Interact_performed;
+        playerInputs.player.InteractAlternate.performed -= InteractAlternate_performed;
+        playerInputs.player.Pause.performed -= Pause_performed;
+        playerInputs.Dispose();
+    }
     public Vector2 GetMovementVectorNormalized(){
         Vector2 inputVector = playerInputs.player.move.ReadValue<Vector2>();
          inputVector = inputVector.normalized;

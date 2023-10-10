@@ -8,5 +8,7 @@ public class DeliveryRecipeSO : ScriptableObject
 {
     public List<KitchenObjectSO> kitchenObjectSOList;
     public string recipeName;
+
+    public float cost;
     
 }

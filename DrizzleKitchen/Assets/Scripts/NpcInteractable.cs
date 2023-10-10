@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class NpcInteractable : BaseCounter
 {
     public static NpcInteractable Instance{get;private set;}
+    public event EventHandler OnDelivered;
     [SerializeField] private OrderState orderState;
     public bool delivered;
     public void Interact(Player player){
@@ -14,6 +16,7 @@ public class NpcInteractable : BaseCounter
                 //DeliveryManager.Instance.DeliverRecipe(plateKitchenObject);
                 delivered= DeliverToCustomer(plateKitchenObject);
                 player.GetKitchenObject().SetkitchenObjectParent(this);
+                OnDelivered?.Invoke(this,EventArgs.Empty);
                
             
             }
@@ -21,6 +24,7 @@ public class NpcInteractable : BaseCounter
                 player.GetKitchenObject().GetComponent<Rigidbody>().useGravity=false;
                 delivered = true;
                 player.GetKitchenObject().SetkitchenObjectParent(this);
+                OnDelivered?.Invoke(this,EventArgs.Empty);
                 Debug.Log("Thats refreshing hmm hmm!!!!");
             }
         }

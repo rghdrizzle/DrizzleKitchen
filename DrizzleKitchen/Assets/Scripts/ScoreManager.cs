@@ -6,16 +6,13 @@ public class ScoreManager : MonoBehaviour
 {
     public static ScoreManager Instance {get;private set;}
      [SerializeField] private NpcInteractable npc; 
+     [SerializeField] private Score score;
      [SerializeField] private OrderState orderstate;
-     private float score;
      public float money;
      
      private void Awake(){
         Instance = this;
 
-     }
-     private void Start(){
-        score =0;
      }
 
     private void Update(){
@@ -25,15 +22,11 @@ public class ScoreManager : MonoBehaviour
         if(npc.delivered){
             DeliveryRecipeSO order = orderstate.Order;
             Debug.Log(order.cost);
-            score += order.cost;
-            Debug.Log(score);
-            money = score;
+            score.score += order.cost;
+            money = score.score;
             npc.delivered = false;
     
         }   
-    }
-    public float GetScore(){
-        return money;
     }
 
 }

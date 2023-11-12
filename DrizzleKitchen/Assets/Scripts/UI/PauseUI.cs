@@ -30,8 +30,12 @@ public class PauseUI : MonoBehaviour
     }
     private void Show(){
         gameObject.SetActive(true);
+        Cursor.lockState= CursorLockMode.None;
+        Cursor.visible = true;
     }
     private void Hide(){
+        Cursor.lockState= CursorLockMode.Locked;
+        Cursor.visible = false;
         gameObject.SetActive(false);
     }
 }
